@@ -361,3 +361,6 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+/WildFiresAnalyses/WildFires.db
+/WildFiresAnalyses/output_data.csv
+/WildFiresAnalyses/state_count
