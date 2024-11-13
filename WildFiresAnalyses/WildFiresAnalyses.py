@@ -12,15 +12,38 @@ query =  'SELECT NWCG_GENERAL_CAUSE, COUNT(*) AS cause_count FROM Fires GROUP BY
 data = pd.read_sql_query(query, conn)
 
 # Export to CSV
-data.to_csv('./output_data.csv', index=False)  # Save as CSV
+#data.to_csv('./output_data.csv', index=False)  # Save as CSV
 
-#Fire count by state
-queryState = 'SELECT STATE, COUNT(*) AS fire_count FROM Fires GROUP BY STATE'
-dataState = pd.read_sql_query(queryState, conn)
-dataState_sorted = dataState.sort_values(by = 'fire_count', ascending = False)
-#Print to Console
-for index, row in dataState_sorted.iterrows():
-    print(f"State: {row['STATE']}, Number of Fires: {row['fire_count']}")
+##Fire count by state
+#queryState = 'SELECT STATE, COUNT(*) AS fire_count FROM Fires GROUP BY STATE'
+#dataState = pd.read_sql_query(queryState, conn)
+#dataState_sorted = dataState.sort_values(by = 'fire_count', ascending = False)
+##Print to Console
+#for index, row in dataState_sorted.iterrows():
+#    print(f"State: {row['STATE']}, Number of Fires: {row['fire_count']}")
 
 #Export to CSV
 #dataState.to_csv('./state_count', index=False)
+
+#Total number of fires per year
+#Try uploading a SQL file
+#Use connection string
+cursor = conn.cursor();
+
+with open("Num_Fires_Per_Year.sql", "r") as file:
+    sql_script = file.read()
+
+#Executes sql command in SQL file
+cursor.execute(sql_script)
+
+#Fetch all results and print them
+results =cursor.fetchall()
+for row in results:
+    print(f"Year: {row[0]}, Number: {row[1]}")
+
+# Commit changes to file and close the connection
+
+conn.close()
+
+
+
