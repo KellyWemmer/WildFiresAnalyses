@@ -25,25 +25,37 @@ data = pd.read_sql_query(query, conn)
 #Export to CSV
 #dataState.to_csv('./state_count', index=False)
 
+
+
 #Total number of fires per year
 #Try uploading a SQL file
 #Use connection string
-cursor = conn.cursor();
+#cursor = conn.cursor();
 
-with open("Num_Fires_Per_Year.sql", "r") as file:
-    sql_script = file.read()
+#with open("Num_Fires_Per_Year.sql", "r") as file:
+#    sql_script = file.read()
 
-#Executes sql command in SQL file
-cursor.execute(sql_script)
+##Executes sql command in SQL file
+#cursor.execute(sql_script)
 
-#Fetch all results and print them
-results =cursor.fetchall()
-for row in results:
-    print(f"Year: {row[0]}, Number: {row[1]}")
+##Fetch all results and print them
+#results =cursor.fetchall()
+#for row in results:
+#    print(f"Year: {row[0]}, Number: {row[1]}")
 
-# Commit changes to file and close the connection
+## Commit changes to file and close the connection
 
-conn.close()
+#conn.close()
 
+#Total number of fires per year excel file for Tableau
+queryState = 'SELECT FIRE_YEAR, COUNT(*) AS NumberOfFires FROM Fires GROUP By FIRE_YEAR ORDER By FIRE_YEAR'
+dataState = pd.read_sql_query(queryState, conn)
+dataState_sorted = dataState.sort_values(by = 'FIRE_YEAR', ascending = True)
+#Print to Console
+#for index, row in dataState_sorted.iterrows():
+#    print(f"Year: {row[0]}, Number: {row[1]}")
+
+#Export to CSV
+dataState.to_csv('./num_per_year.csv', index=False)
 
 
